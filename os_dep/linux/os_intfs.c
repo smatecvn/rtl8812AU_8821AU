@@ -694,7 +694,9 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
                             , void *accel_priv
 #endif
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(3, 14, 0)
+#if LINUX_VERSION_CODE < KERNEL_VERSION(5,2,0)
                             , select_queue_fallback_t fallback
+#endif
 #endif
 
 #endif
@@ -811,7 +813,7 @@ static const struct net_device_ops rtw_netdev_ops = {
 	.ndo_open = netdev_open,
 	.ndo_stop = netdev_close,
 	.ndo_start_xmit = rtw_xmit_entry,
-#if (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,35))
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,35))
 	.ndo_select_queue	= rtw_select_queue,
 #endif
 	.ndo_set_mac_address = rtw_net_set_mac_address,
