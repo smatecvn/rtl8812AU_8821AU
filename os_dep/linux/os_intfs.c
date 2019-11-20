@@ -699,6 +699,7 @@ static u16 rtw_select_queue(struct net_device *dev, struct sk_buff *skb
 #endif
 #endif
 #endif
+	)
 {
 	_adapter	*padapter = rtw_netdev_priv(dev);
 	struct mlme_priv *pmlmepriv = &padapter->mlmepriv;
