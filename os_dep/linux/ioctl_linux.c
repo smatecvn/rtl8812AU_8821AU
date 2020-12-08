@@ -11760,6 +11760,7 @@ static int rtw_efuse_mask_file(struct net_device *dev,
                                struct iw_request_info *info,
                                union iwreq_data *wrqu, char *extra)
 {
+#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 	char *rtw_efuse_mask_file_path;
 	u8 Status;
 	PADAPTER padapter = rtw_netdev_priv(dev);
@@ -11783,7 +11784,8 @@ static int rtw_efuse_mask_file(struct net_device *dev,
 	rtw_efuse_mask_file_path=extra;
 
 	if (rtw_is_file_readable(rtw_efuse_mask_file_path) == _TRUE) {
-		DBG_871X("%s do rtw_efuse_mask_file_read = %s! ,sizeof maskfileBuffer %zu\n",__FUNCTION__,rtw_efuse_mask_file_path,sizeof(maskfileBuffer));
+		DBG_871X("%s do rtw_efuse_mask_file_read = %s! ,sizeof maskfileBuffer %zu\n",
+			 __FUNCTION__,rtw_efuse_mask_file_path,sizeof(maskfileBuffer));
 		Status=rtw_efuse_file_read(padapter,rtw_efuse_mask_file_path,maskfileBuffer,sizeof(maskfileBuffer));
 		if(Status==_TRUE)
 			padapter->registrypriv.bFileMaskEfuse = _TRUE;
@@ -11794,6 +11796,7 @@ static int rtw_efuse_mask_file(struct net_device *dev,
 		DBG_871X("%s rtw_is_file_readable fail !\n",__FUNCTION__);
 	}
 	wrqu->data.length = strlen(extra);
+#endif
 	return 0;
 }
 
@@ -11802,6 +11805,7 @@ static int rtw_efuse_file_map(struct net_device *dev,
                               struct iw_request_info *info,
                               union iwreq_data *wrqu, char *extra)
 {
+#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 	char *rtw_efuse_file_map_path;
 	u8 Status;
 	PEFUSE_HAL pEfuseHal;
@@ -11815,7 +11819,8 @@ static int rtw_efuse_file_map(struct net_device *dev,
 
 	if (rtw_is_file_readable(rtw_efuse_file_map_path) == _TRUE) {
 		DBG_871X("%s do rtw_efuse_mask_file_read = %s! \n",__FUNCTION__,rtw_efuse_file_map_path);
-		Status=rtw_efuse_file_read(padapter,rtw_efuse_file_map_path,pEfuseHal->fakeEfuseModifiedMap,sizeof(pEfuseHal->fakeEfuseModifiedMap));
+		Status=rtw_efuse_file_read(padapter,rtw_efuse_file_map_path,pEfuseHal->fakeEfuseModifiedMap,
+					   sizeof(pEfuseHal->fakeEfuseModifiedMap));
 		if(Status==_TRUE)
 			sprintf(extra, "efuse file file_read OK\n");
 		else
@@ -11825,6 +11830,7 @@ static int rtw_efuse_file_map(struct net_device *dev,
 		DBG_871X("%s rtw_is_file_readable fail !\n",__FUNCTION__);
 	}
 	wrqu->data.length = strlen(extra);
+#endif
 	return 0;
 }
 

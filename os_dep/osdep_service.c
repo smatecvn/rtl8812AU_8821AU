@@ -1857,6 +1857,7 @@ inline int ATOMIC_DEC_RETURN(ATOMIC_T *v)
 
 
 #ifdef PLATFORM_LINUX
+#if 0
 /*
 * Open a file with the specific @param path, @param flag, @param mode
 * @param fpp the pointer of struct file pointer to get struct file pointer while file opening is success
@@ -1878,7 +1879,9 @@ static int openFile(struct file **fpp, char *path, int flag, int mode)
 		return 0;
 	}
 }
+#endif
 
+#if 0
 /*
 * Close the file with the specific @param fp
 * @param fp the pointer of struct file to close
@@ -1889,7 +1892,9 @@ static int closeFile(struct file *fp)
 	filp_close(fp,NULL);
 	return 0;
 }
+#endif
 
+#if 0
 static int readFile(struct file *fp,char *buf,int len)
 {
 	int rlen=0, sum=0;
@@ -1931,7 +1936,9 @@ static int writeFile(struct file *fp,char *buf,int len)
 	return sum;
 
 }
+#endif
 
+#if 0
 /*
 * Test if the specifi @param path is a file and readable
 * @param path the path of the file to test
@@ -1959,7 +1966,9 @@ static int isFileReadable(char *path)
 	}
 	return ret;
 }
+#endif
 
+#if 0
 /*
 * Open the file with @param path and retrive the file content into memory starting from @param buf for @param sz at most
 * @param path the path of the file to open and read
@@ -1994,7 +2003,9 @@ static int retriveFromFile(char *path, u8* buf, u32 sz)
 	}
 	return ret;
 }
+#endif
 
+#if 0
 /*
 * Open the file with @param path and wirte @param sz byte of data starting from @param buf into the file
 * @param path the path of the file to open and write
@@ -2029,8 +2040,10 @@ static int storeToFile(char *path, u8* buf, u32 sz)
 	}
 	return ret;
 }
+#endif
 #endif //PLATFORM_LINUX
 
+#if 0
 /*
 * Test if the specifi @param path is a file and readable
 * @param path the path of the file to test
@@ -2084,6 +2097,7 @@ int rtw_store_to_file(char *path, u8* buf, u32 sz)
 	return 0;
 #endif
 }
+#endif
 
 #ifdef PLATFORM_LINUX
 struct net_device *rtw_alloc_etherdev_with_old_priv(int sizeof_priv, void *old_priv)

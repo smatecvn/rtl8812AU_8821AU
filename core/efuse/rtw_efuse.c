@@ -769,6 +769,7 @@ BOOLEAN rtw_file_efuse_IsMasked(
 
 u8 rtw_efuse_file_read(PADAPTER padapter,u8 *filepatch,u8 *buf,u32 len)
 {
+#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 	char *ptmp;
 	char *ptmpbuf=NULL;
 	u32 rtStatus;
@@ -806,6 +807,9 @@ u8 rtw_efuse_file_read(PADAPTER padapter,u8 *filepatch,u8 *buf,u32 len)
 	_rtw_mfree(ptmpbuf,2048);
 	DBG_871X(" %s ,filepatch %s , done %d \n",__func__,filepatch,rtStatus);
 	return _TRUE;
+#else
+	return _FALSE;
+#endif
 }
 
 

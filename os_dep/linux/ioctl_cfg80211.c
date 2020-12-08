@@ -5177,35 +5177,6 @@ exit:
 	return ret;
 }
 
-static void cfg80211_rtw_mgmt_frame_register(struct wiphy *wiphy,
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3, 6, 0))
-        struct wireless_dev *wdev,
-#else
-        struct net_device *ndev,
-#endif
-        u16 frame_type, bool reg)
-{
-#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,6,0))
-	struct net_device *ndev = wdev_to_ndev(wdev);
-#endif
-	_adapter *adapter;
-
-	if (ndev == NULL)
-		goto exit;
-
-	adapter = (_adapter *)rtw_netdev_priv(ndev);
-
-#ifdef CONFIG_DEBUG_CFG80211
-	DBG_871X(FUNC_ADPT_FMT" frame_type:%x, reg:%d\n", FUNC_ADPT_ARG(adapter),
-	         frame_type, reg);
-#endif
-
-	if (frame_type != (IEEE80211_FTYPE_MGMT | IEEE80211_STYPE_PROBE_REQ))
-		return;
-exit:
-	return;
-}
-
 #if defined(CONFIG_TDLS) && (LINUX_VERSION_CODE >= KERNEL_VERSION(3,2,0))
 static int cfg80211_rtw_tdls_mgmt(struct wiphy *wiphy,
 		struct net_device *ndev,
@@ -6021,7 +5992,6 @@ static struct cfg80211_ops rtw_cfg80211_ops = {
 
 #if (LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,37)) || defined(COMPAT_KERNEL_RELEASE)
 	.mgmt_tx = cfg80211_rtw_mgmt_tx,
-	.mgmt_frame_register = cfg80211_rtw_mgmt_frame_register,
 #elif  (LINUX_VERSION_CODE>=KERNEL_VERSION(2,6,34) && LINUX_VERSION_CODE<=KERNEL_VERSION(2,6,35))
 	.action = cfg80211_rtw_mgmt_tx,
 #endif

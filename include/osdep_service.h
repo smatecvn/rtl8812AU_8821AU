@@ -515,9 +515,11 @@ extern int ATOMIC_INC_RETURN(ATOMIC_T *v);
 extern int ATOMIC_DEC_RETURN(ATOMIC_T *v);
 
 //File operation APIs, just for linux now
+#ifdef CONFIG_LOAD_PHY_PARA_FROM_FILE
 extern int rtw_is_file_readable(char *path);
 extern int rtw_retrive_from_file(char *path, u8* buf, u32 sz);
 extern int rtw_store_to_file(char *path, u8* buf, u32 sz);
+#endif
 
 
 #ifndef PLATFORM_FREEBSD
