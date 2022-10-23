@@ -627,7 +627,11 @@ static int rtw_net_set_mac_address(struct net_device *pnetdev, void *p)
 		//DBG_871X("r8711_net_set_mac_address(), MAC=%x:%x:%x:%x:%x:%x\n", addr->sa_data[0], addr->sa_data[1], addr->sa_data[2], addr->sa_data[3],
 		//addr->sa_data[4], addr->sa_data[5]);
 		_rtw_memcpy(padapter->eeprompriv.mac_addr, addr->sa_data, ETH_ALEN);
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+		//eth_hw_addr_set(pnetdev, addr->sa_data);
+#else
 		//_rtw_memcpy(pnetdev->dev_addr, addr->sa_data, ETH_ALEN);
+#endif
 		//padapter->bset_hwaddr = _TRUE;
 	}
 
@@ -1885,7 +1889,11 @@ int _netdev_if2_open(struct net_device *pnetdev)
 
 		_rtw_memcpy(padapter->eeprompriv.mac_addr, mac, ETH_ALEN);
 		rtw_init_wifidirect_addrs(padapter, padapter->eeprompriv.mac_addr, padapter->eeprompriv.mac_addr);
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+		eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
+#else
 		_rtw_memcpy(pnetdev->dev_addr, padapter->eeprompriv.mac_addr, ETH_ALEN);
+#endif
 	}
 #endif //CONFIG_PLATFORM_INTEL_BYT
 
@@ -2254,7 +2262,11 @@ static int _rtw_drv_register_netdev(_adapter *padapter, char *name)
 	/* alloc netdev name */
 	rtw_init_netdev_name(pnetdev, name);
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+	eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
+#else
 	_rtw_memcpy(pnetdev->dev_addr, padapter->eeprompriv.mac_addr, ETH_ALEN);
+#endif
 
 	/* Tell the network stack we exist */
 	if (register_netdev(pnetdev) != 0) {
@@ -2334,7 +2346,11 @@ int _netdev_open(struct net_device *pnetdev)
 #ifdef CONFIG_PLATFORM_INTEL_BYT
 		rtw_macaddr_cfg(padapter->eeprompriv.mac_addr);
 		rtw_init_wifidirect_addrs(padapter, padapter->eeprompriv.mac_addr, padapter->eeprompriv.mac_addr);
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5, 16, 0))
+		eth_hw_addr_set(pnetdev, padapter->eeprompriv.mac_addr);
+#else
 		_rtw_memcpy(pnetdev->dev_addr, padapter->eeprompriv.mac_addr, ETH_ALEN);
+#endif
 #endif //CONFIG_PLATFORM_INTEL_BYT
 
 		padapter->bDriverStopped = _FALSE;
